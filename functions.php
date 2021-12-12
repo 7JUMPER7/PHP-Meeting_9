@@ -1,4 +1,7 @@
 <?php
+    include_once('./User.php');
+    session_start();
+
     function connect($host, $user, $password, $dbname) {
         $res = mysqli_connect($host, $user, $password);
         if($res) {
@@ -26,5 +29,73 @@
             }
         }
         return $errors;
+    }
+
+    function isLoggedIn() {
+        if(session_status() != PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        if(isset($_SESSION['email'])) {
+            return ['email' => $_SESSION['email'], 'login' => $_SESSION['login']];
+        }
+        return null;
+    }
+
+    function register($login, $email, $password, $password2) {
+        $emailPattern = '/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD';
+        
+        $db = connect('localhost', 'root', 'root', 'agencydb');
+
+        if(!preg_match($emailPattern, $email)) {
+            return ['status' => false, 'message' => 'Wrong email'];
+        }
+        if($password != $password2) {
+            return ['status' => false, 'message' => 'Passwords doest\' match'];
+        }
+        if(mysqli_query($db, "SELECT * FROM Users WHERE Login = '$login'")->num_rows > 0) {
+            return ['status' => false, 'message' => 'Login already exsits'];
+        }
+        if(mysqli_query($db, "SELECT * FROM Users WHERE Email = '$email'")->num_rows > 0) {
+            return ['status' => false, 'message' => 'Email already exists'];
+        }
+
+
+        if($db) {
+            $query = "INSERT INTO `Users`(`Login`, `Password`, `Email`, `RoleId`) VALUES ('$login','".md5($password)."','$email',1)";
+            mysqli_query($db, $query);
+            $err = mysqli_error($db);
+            if($err == '') {
+                if(session_status() != PHP_SESSION_ACTIVE) {
+                    session_start();
+                }
+                $user = new User($login, $email, $password);
+                $_SESSION['user'] = $user;
+                return ['status' => true, 'message' => 'Logged in successfully'];
+            }
+            mysqli_close($db);
+        }
+        return ['status' => false, 'message' => 'Some error happened'];
+    }
+
+    function login($email, $password) {
+        $db = connect('localhost', 'root', 'root', 'agencydb');
+        if($db) {
+            $res = mysqli_query($db, "SELECT * FROM Users WHERE Email = '$email'");
+            if($res->num_rows > 0) {
+                $res = mysqli_fetch_assoc($res);
+                if($res['Password'] == md5($password)) {
+                    if(session_status() != PHP_SESSION_ACTIVE) {
+                        session_start();
+                    }
+                    $user = new User($res['Login'], $res['Email'], $res['Password'], $res['RoleId']);
+                    $_SESSION['user'] = $user;
+                    return ['status' => true, 'message' => 'Logged in successfully'];
+                }
+                return ['status' => false, 'message' => 'Wrong password'];
+            }
+            mysqli_close($db);
+            return ['status' => false, 'message' => 'Email doesn\'t found'];
+        }
+        return ['status' => false, 'message' => 'Some error happened'];
     }
 ?>

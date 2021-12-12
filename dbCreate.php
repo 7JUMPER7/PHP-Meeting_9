@@ -41,7 +41,7 @@
         FOREIGN KEY (RoleId) REFERENCES Roles(Id) ON DELETE CASCADE
     );";
 
-    $res = connect('localhost', 'root', '', 'agencydb');
+    $res = connect('localhost', 'root', 'root', 'agencydb');
     if($res) {
         createDb($res, $query1, $query2, $query3, $query4, $query5, $query6);
         mysqli_close($res);
