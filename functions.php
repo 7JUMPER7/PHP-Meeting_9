@@ -1,5 +1,7 @@
 <?php
-    include_once('./User.php');
+    include_once('./models/User.php');
+    include_once('./models/Country.php');
+    include_once('./models/City.php');
     session_start();
 
     function connect($host, $user, $password, $dbname) {
