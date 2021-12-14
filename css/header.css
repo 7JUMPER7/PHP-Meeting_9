@@ -17,6 +17,9 @@ header a {
     transition: .3s cubic-bezier(.5, 0, 0, 1);
     font-size: 25px;
 }
+header h3 {
+    font-size: 20px;
+}
 
 header.transparent {
     background-color: #e3e3e32a;

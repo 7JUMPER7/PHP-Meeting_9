@@ -16,7 +16,6 @@
         if(resp.ok === true) {
             let countriesSelect = document.getElementById('countries');
             let data = await resp.json();
-            console.log(data);
             Array.from(data).forEach((elem) => {
                 let option = document.createElement('option');
                 option.value = elem.Id;

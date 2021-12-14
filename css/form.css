@@ -102,3 +102,18 @@ form .uploader:hover {
     text-decoration: none;
     font-size: 19px;
 }
+
+form table {
+    font-size: 15px;
+}
+form table thead {
+    border-bottom: 2px solid #d12a3894;
+}
+form .buttons {
+    display: flex;
+    justify-content: space-between;
+}
+form .buttons input[type="submit"] {
+    /* flex: 1 1 auto; */
+    width: 50%;
+}

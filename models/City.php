@@ -2,12 +2,12 @@
     class City {
         public $Id;
         public $City;
-        public $CountryId;
+        public $Country;
 
-        function __construct($Id, $City, $CountryId) {
+        function __construct($Id, $City, $Country) {
             $this->Id = $Id;
             $this->City = $City;
-            $this->CountryId = $CountryId;
+            $this->Country = $Country;
         }
     }
 ?>
