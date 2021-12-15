@@ -25,7 +25,7 @@ form .header {
     text-align: center;
 }
 
-input {
+input, select {
     border: none;
     outline: none;
     border-radius: 7px;
@@ -103,6 +103,13 @@ form .uploader:hover {
     font-size: 19px;
 }
 
+form .tableContainer {
+    overflow: scroll;
+    max-height: 300px;
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, .1);
+    border-radius: 10px;
+    margin: 5px;
+}
 form table {
     font-size: 15px;
 }
@@ -114,6 +121,5 @@ form .buttons {
     justify-content: space-between;
 }
 form .buttons input[type="submit"] {
-    /* flex: 1 1 auto; */
     width: 50%;
 }

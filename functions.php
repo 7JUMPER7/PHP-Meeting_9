@@ -100,4 +100,22 @@
         }
         return ['status' => false, 'message' => 'Some error happened'];
     }
+
+    function getHotelById($id) {
+        $db = connect('localhost', 'root', 'root', 'agencydb');
+        if($db) {
+            $res = mysqli_query($db, "SELECT * FROM Hotels WHERE Id = $id");
+            if($res) {
+                return ['status' => true, 'res' => mysqli_fetch_array($res, MYSQLI_ASSOC)];
+            }
+            mysqli_close($db);
+            return ['status' => false, 'message' => 'Email doesn\'t found'];
+        }
+        return ['status' => false, 'message' => 'Some error happened'];
+    }
+    function RedirectToNotFound(){
+        echo "<script>
+        window.location = '?page=notfound';
+    </script>";
+    }
 ?>

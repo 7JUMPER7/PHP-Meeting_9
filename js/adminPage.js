@@ -59,7 +59,6 @@ async function renderCities() {
     let data = await getAllCities();
     if(data) {
         let body = document.getElementById('Cities').querySelector('tbody');
-        console.log(data);
         Array.from(data).forEach((elem) => {
             let tr = document.createElement('tr');
     
@@ -97,6 +96,72 @@ async function renderCities() {
     }
 }
 
+async function getAllHotels() {
+    let resp = await fetch("http://localhost/PHP-Meeting_9/api/getHotels.php", {
+        method: "GET",
+        headers: {
+            "Accept": "application/json"
+        }
+    });
+    if(resp.ok === true) {
+        return await resp.json();
+    }
+    return null;
+}
+
+async function renderHotels() {
+    let data = await getAllHotels();
+    if(data) {
+        let body = document.getElementById('Hotels').querySelector('tbody');
+        Array.from(data).forEach((elem) => {
+            let tr = document.createElement('tr');
+    
+            let inputTd = document.createElement('td');
+            let input = document.createElement('input');
+            input.type = "checkbox";
+            input.name = "deleteItem" + elem.Id;
+            inputTd.append(input);
+            
+            let id = document.createElement('td');
+            id.innerText = elem.Id;
+    
+            let hotel = document.createElement('td');
+            hotel.innerText = elem.Hotel;
+    
+            let place = document.createElement('td');
+            place.innerText = elem.City + ', ' + elem.Country;
+    
+            let stars = document.createElement('td');
+            if(!elem.Stars) {
+                stars.innerText = '-';
+            } else {
+                stars.innerText = elem.Stars;
+            }
+    
+            let price = document.createElement('td');
+            price.innerText = elem.Price;
+    
+            tr.append(inputTd);
+            tr.append(id);
+            tr.append(hotel);
+            tr.append(place);
+            tr.append(stars);
+            tr.append(price);
+            body.append(tr);
+        });
+        let countriesSelect = document.getElementById('Hotels').querySelector('select[name="Place"]');
+        let countries = await getAllCities();
+        if(countries) {
+            Array.from(countries).forEach((elem) => {
+                let option = document.createElement('option');
+                option.value = elem.Id;
+                option.innerText = elem.City + ', ' + elem.Country;
+                countriesSelect.append(option);
+            });
+        }
+    }
+}
+
 async function addCountry(e) {
     const submitter = e.target;
     const country = submitter.closest('form').querySelector('input[name="Country"]').value;
@@ -112,7 +177,7 @@ async function addCountry(e) {
         });
         if(resp.ok) {
             let data = resp.json();
-            console.log(data);
+            return data;
         }
     }
 }
@@ -134,7 +199,34 @@ async function addCity(e) {
         });
         if(resp.ok) {
             let data = resp.json();
-            console.log(data);
+            return data;
+        }
+    }
+}
+
+async function addHotel(e) {
+    const submitter = e.target;
+    const form = submitter.closest('form');
+    const hotel = form.querySelector('input[name="Hotel"]').value;
+    const cityId = form.querySelector('select[name="Place"]').value;
+    const price = form.querySelector('input[name="Price"]').value;
+    const description = form.querySelector('input[name="Description"]').value;
+    if(hotel != '') {
+        let formData = new FormData();
+        formData.append('hotel', hotel);
+        formData.append('cityId', cityId);
+        formData.append('price', price);
+        formData.append('description', description);
+        let resp = await fetch('http://localhost/PHP-Meeting_9/api/addHotel.php', {
+            method: "POST",
+            headers:  {
+                "Accept": "application/json"
+            },
+            body: formData
+        });
+        if(resp.ok) {
+            let data = resp.json();
+            return data;
         }
     }
 }
@@ -164,3 +256,4 @@ async function deleteFromTable(e) {
 
 document.addEventListener("DOMContentLoaded", async () => await renderCountries());
 document.addEventListener("DOMContentLoaded", async () => await renderCities());
+document.addEventListener("DOMContentLoaded", async () => await renderHotels());

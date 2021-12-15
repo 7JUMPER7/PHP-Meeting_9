@@ -33,7 +33,7 @@
         }
         return null;
     }
-
+    
     function getCities() {
         $db = connect('localhost', 'root', 'root', 'agencydb');
         if($db) {
@@ -48,6 +48,23 @@
             return $cities;
         }
         return null;
+    }
+
+    function getHotels() {
+        $db = connect('localhost', 'root', 'root', 'agencydb');
+        if($db) {
+            $query = "SELECT h.Id, h.Hotel, cit.City, coun.Country, h.Stars, h.Price FROM Hotels AS h
+            JOIN Cities AS cit ON cit.Id = h.CityId
+            JOIN Countries AS coun ON coun.Id = cit.CountryId;";
+            $res = mysqli_query($db, $query);
+            $hotels = [];
+            while($row = mysqli_fetch_array($res, MYSQLI_ASSOC)) {
+                $hotel = new Hotel($row['Id'], $row['Hotel'], $row['City'], $row['Country'], $row['Stars'], $row['Price']);
+                $hotels[] = $hotel;
+            }
+            mysqli_close($db);
+            return $hotels;
+        }
     }
 
     function addCountry($country) {
@@ -65,6 +82,17 @@
         $db = connect('localhost', 'root', 'root', 'agencydb');
         if($db) {
             $query = "INSERT INTO Cities (City, CountryId) VALUES ('$city', $countryId);";
+            $res = mysqli_query($db, $query);
+            mysqli_close($db);
+            return $res;
+        }
+        return null;
+    }
+
+    function addHotel($hotel, $cityId, $price, $description) {
+        $db = connect('localhost', 'root', 'root', 'agencydb');
+        if($db) {
+            $query = "INSERT INTO Hotels (`Hotel`, `CityId`, `Price`, `Description`) VALUES ('$hotel',$cityId,$price,'$description')";
             $res = mysqli_query($db, $query);
             mysqli_close($db);
             return $res;
