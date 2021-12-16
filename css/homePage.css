@@ -1,0 +1,44 @@
+.home {
+    width: 100%;
+    position: relative;
+
+    /* height: calc(100vh - 77.5px); */
+}
+.home .backImage {
+    background-image: url('../assets/Solo-Travel-in-Nature-acbfea52bfaf.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: calc(100vh - 77.5px);
+    filter: blur(7px);
+    position: absolute;
+    z-index: -1;
+}
+.home .text {
+    color: white;
+    font-weight: bold;
+    font-size: 70px;
+    text-shadow: 2px 2px 30px #272727;
+}
+.home .textWrapper {
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 30vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.home .textWrapper a {
+    color: white;
+    background-color: #D12A38;
+    box-shadow: 0 0 20px 0 #D12A38;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 15px;
+    transition: .2s;
+}
+.home .textWrapper a:hover {
+    background-color: #e92a3a;
+    box-shadow: 0 0 30px 0 #e92a3a;
+}

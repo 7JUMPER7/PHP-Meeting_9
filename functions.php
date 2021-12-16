@@ -113,9 +113,38 @@
         }
         return ['status' => false, 'message' => 'Some error happened'];
     }
+
+    function getHotelImages($id) {
+        $db = connect('localhost', 'root', 'root', 'agencydb');
+        if($db) {
+            $res = mysqli_query($db, "SELECT * FROM Images WHERE HotelId = $id");
+            if($res) {
+                $images = mysqli_fetch_all($res, MYSQLI_ASSOC);
+                if(count($images) > 0) {
+                    return ['status' => true, 'res' => $images];
+                }
+            }
+            mysqli_close($db);
+        }
+        return ['status' => false];
+    }
+
+    function getPlaceByCityId($id) {
+        $db = connect('localhost', 'root', 'root', 'agencydb');
+        if($db) {
+            $res = mysqli_query($db, "SELECT City, Country FROM Cities JOIN Countries ON Countries.Id = Cities.CountryId WHERE Cities.Id = $id");
+            if($res) {
+                $place = mysqli_fetch_row($res);
+                return ['status' => true, 'res' => $place];
+            }
+            mysqli_close($db);
+        }
+        return ['status' => false];
+    }
+
     function RedirectToNotFound(){
         echo "<script>
-        window.location = '?page=notfound';
-    </script>";
+            window.location = '?page=notfound';
+            </script>";
     }
 ?>

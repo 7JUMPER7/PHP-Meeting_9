@@ -34,10 +34,15 @@
         return null;
     }
     
-    function getCities() {
+    function getCities($countryId = -1) {
         $db = connect('localhost', 'root', 'root', 'agencydb');
         if($db) {
-            $query = "SELECT Cities.Id, Cities.City, Countries.Country FROM Cities JOIN Countries ON Countries.Id = Cities.CountryId";
+            $query = "";
+            if($countryId == -1) {
+                $query = "SELECT Cities.Id, Cities.City, Countries.Country FROM Cities JOIN Countries ON Countries.Id = Cities.CountryId";
+            } else {
+                $query = "SELECT Cities.Id, Cities.City, Countries.Country FROM Cities JOIN Countries ON Countries.Id = Cities.CountryId WHERE CountryId = $countryId";
+            }
             $res = mysqli_query($db, $query);
             $cities = array();
             while($row = mysqli_fetch_array($res, MYSQLI_ASSOC)) {
@@ -50,12 +55,22 @@
         return null;
     }
 
-    function getHotels() {
+    function getHotels($countryId = -1, $cityId = -1) {
         $db = connect('localhost', 'root', 'root', 'agencydb');
         if($db) {
             $query = "SELECT h.Id, h.Hotel, cit.City, coun.Country, h.Stars, h.Price FROM Hotels AS h
             JOIN Cities AS cit ON cit.Id = h.CityId
-            JOIN Countries AS coun ON coun.Id = cit.CountryId;";
+            JOIN Countries AS coun ON coun.Id = cit.CountryId";
+
+            if($cityId != -1) {
+                $query .= " WHERE cit.Id = $cityId";
+            } else {
+                if($countryId != -1) {
+                    $query .= " WHERE coun.Id = $countryId";
+                }
+            }
+            
+
             $res = mysqli_query($db, $query);
             $hotels = [];
             while($row = mysqli_fetch_array($res, MYSQLI_ASSOC)) {

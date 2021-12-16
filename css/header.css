@@ -9,6 +9,7 @@ header {
     position: sticky;
     top: 0;
     transition: .5s;
+    z-index: 10;
 }
 header a {
     color: #1e2e35;

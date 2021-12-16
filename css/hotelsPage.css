@@ -1,0 +1,72 @@
+.params {
+    background-color: #e3e3e3;
+    border-radius: 7px;
+    box-shadow: 7px 7px 15px 0 rgba(0, 0, 0, .3);
+    margin-top: 40px;
+    margin-bottom: 40px;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.params .selects label {
+    color: #e92a3a;
+    font-size: 18px;
+    font-weight: bold;
+}
+.params .selects label select {
+    width: 200px;
+}
+.params .result {
+    color: black;
+    font-size: 18px;
+}
+.params .result span {
+    color: #e92a3a;
+    font-weight: bold;
+}
+
+a {
+    text-decoration: none;
+}
+.hotelCard {
+    background-color: #e3e3e3;
+    border-radius: 7px;
+    box-shadow: 7px 7px 15px 0 rgba(0, 0, 0, .3);
+    display: flex;
+    margin-top: 15px;
+    flex-direction: row;
+    align-items: center;
+    overflow: hidden;
+    height: 200px;
+    transition: .5s;
+    color: black;
+    cursor: pointer;
+}
+.hotelCard img {
+    width: 30%;
+    height: 100%;
+    object-fit: cover;
+}
+.hotelCard .cardBody {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+    flex: 1 1 auto;
+}
+.hotelCard .cardBody .infoBox p {
+    font-size: 18px;
+}
+.hotelCard .cardBody .priceBox {
+    color: #e92a3a;
+}
+.hotelCard:hover {
+    transform: scale(1.05);
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-top: 1px solid rgba(255, 255, 255, .1);
+    border-left: 1px solid rgba(255, 255, 255, .1);
+}
