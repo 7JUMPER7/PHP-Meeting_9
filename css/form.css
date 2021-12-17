@@ -72,11 +72,6 @@ form .resultBox {
     color: #D12A38;
 }
 
-input[type="file"] {
-    opacity: 0;
-    position: absolute;
-    z-index: -1;
-}
 form .uploader {
     background-color: whitesmoke;
     cursor: pointer;

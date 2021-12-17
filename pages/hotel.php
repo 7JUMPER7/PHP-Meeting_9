@@ -1,24 +1,49 @@
+<?php
+    include_once('./functions.php');
+
+    if(isset($_GET['id']) && isset($_POST['addImagesBtn'])) {
+        if($_FILES) {
+
+            $images = clearHotelImages($_GET['id']); // Удаление файлов
+            if($images['status']) {
+                foreach($images['images'] as $image) {
+                    unlink('./images/'.$image['Path']);
+                }
+            }
+
+            $newImages = [];
+            foreach($_FILES['photos']['error'] as $key => $error) {
+                if($error == UPLOAD_ERR_OK) {
+                    $filename = uniqid('image_').'.jpeg';
+                    $tmpName = $_FILES['photos']['tmp_name'][$key];
+                    move_uploaded_file($tmpName, './images/'.$filename);
+                    $newImages[] = ['hotelId' => $_GET['id'], 'filename' => $filename];
+                }
+            }
+            putImages($newImages);
+        }
+    }
+?>
+
 <div class="container">
     <?php
         if(isset($_SESSION['user'])) {
             if($_SESSION['user']->getRoleId() == 2) {
                 ?>
-                    <form class="imageLoader">
+                    <form class="imageLoader" action=<?php echo $_SERVER['REQUEST_URI']; ?> method="POST" enctype="multipart/form-data">
                         <div class="mb-3">
-                            <label for="formFileMultiple" class="form-label">Multiple files input example
-                                <input class="form-control" type="file" id="formFileMultiple" multiple>
-                            </label>
+                            <label for="formFileMultiple" class="form-label">Select all hotel images</label>
+                            <input class="form-control" name="photos[]" type="file" id="formFileMultiple" accept="image/*" multiple>
                         </div>
+                        <input type="submit" name="addImagesBtn" value="Set images">
                     </form>
                 <?php
-                uniqid('image_');
             }
         }
 
         if(!isset($_GET['id'])) {
             RedirectToNotFound();
         } else {
-            include_once('./functions.php');
             $res = getHotelById($_GET['id']);
             if(!$res['status']) {
                 RedirectToNotFound();

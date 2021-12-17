@@ -74,12 +74,18 @@
             $res = mysqli_query($db, $query);
             $hotels = [];
             while($row = mysqli_fetch_array($res, MYSQLI_ASSOC)) {
-                $hotel = new Hotel($row['Id'], $row['Hotel'], $row['City'], $row['Country'], $row['Stars'], $row['Price']);
+                $image = mysqli_query($db, "SELECT * FROM Images WHERE HotelId = ".$row['Id']." LIMIT 1")->fetch_row();
+                $path = $image ? $image[2] : null;
+                $hotel = new Hotel($row['Id'], $row['Hotel'], $row['City'], $row['Country'], $row['Stars'], $row['Price'], $path);
                 $hotels[] = $hotel;
             }
             mysqli_close($db);
             return $hotels;
         }
+    }
+
+    function getFirstHotelImage($hotelId) {
+
     }
 
     function addCountry($country) {

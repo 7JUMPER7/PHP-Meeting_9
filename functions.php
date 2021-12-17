@@ -142,6 +142,34 @@
         return ['status' => false];
     }
 
+    function clearHotelImages($hotelId) {
+        $db = connect('localhost', 'root', 'root', 'agencydb');
+        if($db) {
+            $res = mysqli_query($db, "SELECT * FROM `Images` WHERE HotelId = $hotelId");
+            $images = mysqli_fetch_all($res, MYSQLI_ASSOC);
+            $res = mysqli_query($db, "DELETE FROM `Images` WHERE HotelId = $hotelId");
+            mysqli_close($db);
+            if($res) {
+                return ['status' => true, 'images' => $images];
+            }
+        }
+        return ['status' => false];
+    }
+
+    function putImages($images) {
+        $db = connect('localhost', 'root', 'root', 'agencydb');
+        if($db) {
+            $isGood = true;
+            foreach($images as $k => $image) {
+                $res = mysqli_query($db, "INSERT INTO `Images` (HotelId, Path) VALUES (".$image['hotelId'].", '".$image['filename']."')");
+                if(!$res) $isGood = false;
+            }
+            return $isGood;
+            mysqli_close($db);
+        }
+        return false;
+    }
+
     function RedirectToNotFound(){
         echo "<script>
             window.location = '?page=notfound';
@@ -151,6 +179,7 @@
     function logOut() {
         if(isset($_SESSION['user'])) {
             unset($_SESSION['user']);
+            session_destroy();
             return true;
         }
         return false;

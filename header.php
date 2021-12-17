@@ -6,7 +6,7 @@
 
         echo "<div class='login'>";
         if(isset($_SESSION['user'])) {
-            echo '<h3>'.$_SESSION['user']->getLogin().'</h3>';
+            echo '<a href="?page=user"><h3>'.$_SESSION['user']->getLogin().'</h3></a>';
         } else {
             foreach($loginLinks as $name => $link) {
                 echo "<a href='?page=$name'>".ucfirst($name)."</a>";

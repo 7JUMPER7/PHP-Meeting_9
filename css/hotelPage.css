@@ -24,20 +24,6 @@
 .hotelContainer .hotelBody .header h2 {
     color: #D12A38;
 }
-.undefinedImage {
-    width: 100%;
-    height: 300px;
-    background-color: #d12a3827;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-.undefinedImage svg {
-    width: 32px;
-    height: 32px;
-    color: white;
-}
 
 .hotelContainer p {
     font-size: 18px;
@@ -48,7 +34,7 @@
 
 .imageLoader {
     max-width: 1000px;
-    background-color: transparent;
+    background-color: #e3e3e3;
     border-radius: 7px;
     box-shadow: 7px 7px 15px 0 rgba(0, 0, 0, .3);
     margin: 40px auto;

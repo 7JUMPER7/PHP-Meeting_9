@@ -44,7 +44,7 @@ a {
     color: black;
     cursor: pointer;
 }
-.hotelCard img {
+.hotelCard img, .hotelCard .undefinedImage {
     width: 30%;
     height: 100%;
     object-fit: cover;
