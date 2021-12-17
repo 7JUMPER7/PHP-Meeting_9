@@ -147,4 +147,12 @@
             window.location = '?page=notfound';
             </script>";
     }
+
+    function logOut() {
+        if(isset($_SESSION['user'])) {
+            unset($_SESSION['user']);
+            return true;
+        }
+        return false;
+    }
 ?>

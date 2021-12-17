@@ -45,3 +45,17 @@
 .hotelContainer p.desc {
     margin-top: 30px;
 }
+
+.imageLoader {
+    max-width: 1000px;
+    background-color: transparent;
+    border-radius: 7px;
+    box-shadow: 7px 7px 15px 0 rgba(0, 0, 0, .3);
+    margin: 40px auto;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    color: black;
+}

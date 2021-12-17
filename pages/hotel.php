@@ -1,5 +1,20 @@
 <div class="container">
     <?php
+        if(isset($_SESSION['user'])) {
+            if($_SESSION['user']->getRoleId() == 2) {
+                ?>
+                    <form class="imageLoader">
+                        <div class="mb-3">
+                            <label for="formFileMultiple" class="form-label">Multiple files input example
+                                <input class="form-control" type="file" id="formFileMultiple" multiple>
+                            </label>
+                        </div>
+                    </form>
+                <?php
+                uniqid('image_');
+            }
+        }
+
         if(!isset($_GET['id'])) {
             RedirectToNotFound();
         } else {

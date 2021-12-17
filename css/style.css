@@ -29,3 +29,18 @@ body main {
 .alertMessage {
     text-align: center;
 }
+
+.glowBtn {
+    color: white;
+    background-color: #D12A38;
+    box-shadow: 0 0 20px 0 #D12A38;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 15px;
+    transition: .2s;
+}
+.glowBtn:hover {
+    background-color: #e92a3a;
+    box-shadow: 0 0 30px 0 #e92a3a;
+}

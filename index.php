@@ -1,7 +1,7 @@
 <?php
     $links = ['home' => './pages/homepage.php', 'hotels' => './pages/hotels.php'];
     $loginLinks = ['register' => './pages/registration.php', 'login' => './pages/login.php'];
-    $hideLinks = ['admin' => './pages/admin.php', 'notfound' => './pages/notfound.php', 'hotel' => './pages/hotel.php'];
+    $hideLinks = ['admin' => './pages/admin.php', 'notfound' => './pages/notfound.php', 'hotel' => './pages/hotel.php', 'user' => './pages/user.php'];
 ?>
 
 <!DOCTYPE html>
